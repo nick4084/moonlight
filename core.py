@@ -13,7 +13,7 @@ def fetchAccBalance():
         if(float(currency['free'])> 0.00001 or float(currency['locked'])>0.00001):
             acct_bal.append(currency)
         
-    settings.account_balance= acct_bal
+    return acct_bal
 
 def getTradeWithQty():
     fetchAccBalance()

@@ -4,16 +4,18 @@ import core
 from binance.client import Client
 #This file declare and hold global variable across program
 
-def init():
+def init(f):
     #############IMPORTANT############
     global is_test_mode
     is_test_mode = False
     #################################
+    global source
+    source = "binance"
     global client 
     client = key().getClient()
-    global account_balance # eg. {'asset': 'BTC', 'free': '0.15554411', 'locked': '0.00000000'}
-    account_balance = []
-    core.fetchAccBalance()
+
+    global flags
+    flags = f
 
     #portfolio
     global portfolio

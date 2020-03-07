@@ -5,17 +5,25 @@ from key import *
 import settings
 import bot
 import history
+import sys
+import wallet
+
+
+
+#interpret flags
+flags = {}
+for arg in sys.argv:
+
+    if arg == '-p' :
+        flags["p"] =  "paper"
+        continue
+
+    if arg == '-o':
+        flags["o"] =  "observe"
+        continue
 
 
 #Initialise requirements
-settings.init()
-
-balances = settings.account_balance
-for asset in balances:
-    if(asset['asset'] != settings.trade_with):
-        print(asset['asset'] + settings.trade_with)
-    else:
-        print(asset)
-#bot.monitor('BNBUSDT')
-
-history.collect('BCHABCUSDT')
+settings.init(flags)
+wallet.init()
+wallet.getBalanceBySymbol("bnb")

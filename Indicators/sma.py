@@ -3,6 +3,9 @@ import numpy
 from Objects import kline as kline_object
 
 closePriceList = [] #first item being most recent
+""" SMA can be initialized by passing in an array of klines. 
+The size of the array will determine the number of 
+To get the sama after init, call function getSMA"""
 
 class simpleMovingAverage:
     def __init__(self, ds):
@@ -23,6 +26,10 @@ class simpleMovingAverage:
         newSummation = (smaValue * n) -valueToRemove + float(kline.CLOSE_PRICE)
         smaValue = newSummation / n
 
+        return smaValue
+
+    def getSMA():
+        global smaValue
         return smaValue
 
     def computeSMA():

@@ -70,27 +70,6 @@ def getOrderBook(sym):
 
     return result
 
-#history kline
-
-def getHistoryPrice(sym, start_ms, interval = Client.KLINE_INTERVAL_1MINUTE):
-    result = s.client.get_historical_klines(
-        symbol = sym,
-        interval = interval, 
-        start_str = str(start_ms),
-        limit = 1000)
-
-    return result
-
-def getHistoryPriceByRange(sym, start_ms, end_ms, interval = Client.KLINE_INTERVAL_1MINUTE):
-    result = s.client.get_historical_klines(
-        symbol = sym,
-        interval = interval, 
-        start_str = str(start_ms),
-        end_str = str(end_ms),
-        limit = 1000)
-
-    return result
-
 
 
 

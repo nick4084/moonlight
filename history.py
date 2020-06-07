@@ -211,16 +211,22 @@ def getHistoryPriceByRange(sym, start_ms, end_ms, interval = Client.KLINE_INTERV
 
     return result
 
-def getHistoryPriceByDateRange(self, sym, interval, start, end, limit = 1000):
+def getHistoryPriceByDateRange(sym, interval, start, end, limit = 1000):
     return s.client.get_historical_klines(
         symbol = sym,
         interval = interval, 
         start_str = str(start),
         end_str = str(end),
-        limit = 1000)
+        limit = limit)
+
+def getHistoryPriceByStartTimestamp(sym, interval, start):
+    return s.client.get_historical_klines(
+        symbol = sym,
+        interval = interval, 
+        start_str = str(start))
 
 def writeToCSV(df, fileName):
     df = pd.DataFrame(df)
 
-    df.to_csv('./data/' + fileName + '.csv')
+    df.to_csv('./data/' + fileName.replace(' ', '') + '.csv')
 

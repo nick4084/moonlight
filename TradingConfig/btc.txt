@@ -1,0 +1,7 @@
+[TRADING_CONFIG]
+asset: BTC
+pair: USDT
+
+
+[PAPER_WALLET_CONFIG]
+balance: [{"asset": "USDT", "free": 1000.00000000, "locked": 0.00000000},{"asset": "BTC", "free": 0.00000000, "locked": 0.00000000} ]

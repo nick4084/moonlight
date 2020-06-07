@@ -2,7 +2,7 @@
 from key import *
 import core
 from binance.client import Client
-#This file declare and hold global variable across program
+#This file declare and hold global constant variable across program
 
 def init(f):
     #############IMPORTANT############

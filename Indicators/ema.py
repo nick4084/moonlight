@@ -1,7 +1,7 @@
 #!/usr/bin/python 
 import numpy
 from Objects import kline as kline_object
-from sma import simpleMovingAverage
+from .sma import simpleMovingAverage
 closePriceList = [] #first item being most recent
 ''' after init, it does not have a ema value as the initial ds is used to determine timeperiod
 Simply add another kline to generate a ema value by calling addKlineAndGetEMA()'''
@@ -37,6 +37,14 @@ class exponentialMovingAverage:
         kline = kline_object.kLine(newKline)
         
         newClosePrice = kline.CLOSE_PRICE
+        emaValue = self.computeEMA(newClosePrice)
+        latestClosePrice = newClosePrice
+
+        return emaValue
+
+    def addClosePriceAndGetEMA(newClosePrice):
+        global emaValue, latestClosePrice
+        
         emaValue = self.computeEMA(newClosePrice)
         latestClosePrice = newClosePrice
 

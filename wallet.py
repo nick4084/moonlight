@@ -3,53 +3,61 @@ import settings
 import core
 from paperbalance import assets
 
-#This script hold the wallet balance and some access functions
-
-
-
+# This script hold the wallet balance and some access functions
+minBalanceToConsideredActive = 0.001
 ASSET = "asset"
 FREE = "free"
 LOCKED = "locked"
 balance = {}
 
-def init():
-    global balance
-    balance = {}
+#eg of wallet format
+# [
+#     {'asset': 'BNB', 'free': '1.17801202', 'locked': '0.00000000'}, 
+#     {'asset': 'USDT', 'free': '0.00134803', 'locked': '0.00000000'}, 
+#     {'asset': 'BCHABC', 'free': '5.99054032', 'locked': '0.00000000'}, 
+#     {'asset': 'BCH', 'free': '5.99054032', 'locked': '0.00000000'}
+#  ]
 
-    if "p" in settings.flags:
-        __paperWallet()
-    else:
-        __actualWallet()
+class Wallet:
 
-def __paperWallet():
-    #init paper wallet
-    global balance
-    print("initializing paper wallet from file... ")
-    balance = assets
-
-def __actualWallet():
-    #init actual wallet
-    global balance
-    print("loading wallet balance from " + settings.source + "... ")
-    balance = core.fetchAccBalance()
-
-def getAllBalance():
-    global balance
-    return balance
+    def __init__(self, isPaperWallet, balance={}):
+        self.isPaperWallet = isPaperWallet
+        if isPaperWallet:
+            print("initializing paper wallet... ")
+            self.balance = balance
+            print(self.balance)
+        else:
+            print("loading wallet balance from " + settings.source + "... ")
+            self.balance = core.fetchAccBalance()
 
 
-def getBalanceBySymbol(sym):
-    global balance
-    sym = sym.upper()
-    print(sym)
-    for bal in balance:
-        if(bal.get(ASSET) == sym):
-            print(bal.get(FREE))
+    def getAllBalance(self):
+        return self.balance
 
-def refreshActual():
-    global balance
-    balance = core.fetchAccBalance()
 
-def savePaperBalance():
-    global balance
-    
+    def getBalanceBySymbol(self, symbol):
+        sym = symbol.upper()
+        for bal in self.balance:
+            if(bal.get(ASSET) == sym):
+                return bal.get(FREE)
+
+    def refreshBalance(self):
+        """refrest actual wallet balance"""
+        self.balance = core.fetchAccBalance()
+
+    def refreshBalance(self, symbol, value):
+        """update paper wallet balance"""
+        print(self.balance)
+        for i ,bal in enumerate(self.balance):
+            if(bal.get(ASSET) == symbol):
+                self.balance[i][FREE] = value
+        
+        print(self.balance)
+        
+    def hasBalance(self, symbol):
+        sym = symbol.upper()
+        for bal in self.balance:
+            if(bal.get(ASSET) == sym and float(bal.get(FREE)) >= minBalanceToConsideredActive):
+                return True
+            
+        return False

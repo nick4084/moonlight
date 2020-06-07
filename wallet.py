@@ -1,4 +1,7 @@
 #!/usr/bin/python
+import configparser
+import os
+import json
 import settings
 import core
 from paperbalance import assets
@@ -20,8 +23,9 @@ balance = {}
 
 class Wallet:
 
-    def __init__(self, isPaperWallet, balance={}):
+    def __init__(self, isPaperWallet, balance={}, paperFile = ''):
         self.isPaperWallet = isPaperWallet
+        self.paperFile = paperFile
         if isPaperWallet:
             print("initializing paper wallet... ")
             self.balance = balance
@@ -30,6 +34,15 @@ class Wallet:
             print("loading wallet balance from " + settings.source + "... ")
             self.balance = core.fetchAccBalance()
 
+    def writeToPaperFile(self):
+        thisfolder = os.path.dirname(os.path.abspath(__file__))
+        fileName = os.path.join(thisfolder, 'TradingConfig/'+ self.paperFile +'.ini')
+        config = configparser.RawConfigParser()
+        config.read(fileName)
+        config.set('PAPER_WALLET_CONFIG', 'balance', json.dumps(self.balance))
+
+        with open(fileName, 'w') as configfile:    # save
+            config.write(configfile)
 
     def getAllBalance(self):
         return self.balance
@@ -46,13 +59,12 @@ class Wallet:
         self.balance = core.fetchAccBalance()
 
     def refreshBalance(self, symbol, value):
-        """update paper wallet balance"""
-        print(self.balance)
+        """update paper wallet balance and its ini file"""
         for i ,bal in enumerate(self.balance):
             if(bal.get(ASSET) == symbol):
                 self.balance[i][FREE] = value
         
-        print(self.balance)
+        self.writeToPaperFile()
         
     def hasBalance(self, symbol):
         sym = symbol.upper()

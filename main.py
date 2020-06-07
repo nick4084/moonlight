@@ -60,7 +60,7 @@ while(start):
     jsonWallet = json.loads(paperWallet)
 
     #init wallet
-    wallet = Wallet(flags[PARM_IS_PAPER_TRADE], jsonWallet)
+    wallet = Wallet(flags[PARM_IS_PAPER_TRADE], jsonWallet, flags[PARAM_CONFIG_FILENAME])
 
 
     #bot 

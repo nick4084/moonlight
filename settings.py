@@ -17,11 +17,6 @@ def init(f):
     global flags
     flags = f
 
-    #portfolio
-    global portfolio
-    portfolio = { 'BTC': 0.4, 'BCHABC': 0.4, 'ETH': 0.2 }
-
-
     #URL declaration
     global kline_endpoint 
     global trade_endpoint

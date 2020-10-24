@@ -108,6 +108,7 @@ class bot:
         else:
             print('real sell')
 
+        self.isLookingToBuy = True
         core.sendTelegramNotificationMessage( mode + 'SOLD: ' + str(bal) + self.symbol + ' @ ' + str(round(float(price)))+ 'USD.')
 
     def isLossThresholdMet(self, startPrice, currentPrice, lossPercentage):
@@ -172,6 +173,7 @@ class bot:
         state = 'buy side' if self.isLookingToBuy else 'sell side'
         mode = ' [paper] ' if self.flags['isPaperTrade'] else ''
         core.sendTelegramNotificationMessage('Starting bot ' + mode + self.symbol_pair + '...' + ' On ' + state)
+        
         #####################################################
         #   Main logic
         #####################################################
@@ -186,7 +188,7 @@ class bot:
                 #restart bot
                 return True
             
-            print( 'buy' if self.isLookingToBuy else 'sell' + "side | RSI:"  + str(currentRsi))
+            print( 'buy' if self.isLookingToBuy else 'sell' + " side | RSI:"  + str(currentRsi))
             if(self.isLookingToBuy):
                 # looking to buy
                 if(currentRsi <= self.strategy['buyRsiValue']):
@@ -201,7 +203,6 @@ class bot:
                 elif(self.isLossThresholdMet(startPrice, float(kline.CLOSE_PRICE), self.strategy['trailingstopLossStrategy']['lossThresholdPercent'])):
                     # stop loss
                     self.sellCrypto()
-
 
             time.sleep(s.bot_delay)
 # def mainLogicLoop(symbol):

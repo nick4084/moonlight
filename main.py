@@ -45,7 +45,6 @@ for (i, arg) in enumerate(sys.argv):
                 flags[PARAM_CONFIG_FILENAME] = sys.argv[i + 1]
                 continue
 
-
 start = True
 while(start):
     # Initialise requirements
@@ -53,7 +52,7 @@ while(start):
 
     # read trading config
     config = configparser.RawConfigParser()
-    config.read('./TradingConfig/'+ flags[PARAM_CONFIG_FILENAME] +'.txt')
+    config.read('./TradingConfig/'+ flags[PARAM_CONFIG_FILENAME] +'.ini')
     tradingConfig = dict(config.items(PARAM_CONFIG_KEY))
     walletConfig = dict(config.items(PARAM_CONFIG_PAPER_WALLET))
     paperWallet = walletConfig['balance']

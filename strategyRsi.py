@@ -17,6 +17,35 @@ class strategyRsi:
         if(self.isPriceSameAsPrev(openPrice, highPrice, lowPrice, closePrice)):
             return None
 
+        newRsiValue = self.rsi14.addNewClosePrice(closePrice)
+
+        if(isBuying):
+            if(newRsiValue <= targetPrice):
+                #signal to buy. 
+                    btc += buy(targetPrice, usd)
+                    usd = 0
+                    lastBuyPrice = targetPrice
+                    print('buy '+ str(btc) +' at '+ str(targetPrice))
+                    print('bal: ', btc)
+                    buyx.append(i)
+                    buyy.append(targetPrice)
+                    isLookingToBuy = False
+            
+            else:
+                #looking to sell
+                targetPrice = rsi14.findPriceToCriticalRsi(sellRsiValue)
+                if( hp >= targetPrice):
+                    #buy at target price
+                    print('sell '+ str(btc) +' at '+ str(targetPrice))
+                    usd += sell(targetPrice, btc)
+                    btc = 0
+                    print('bal: ', usd)
+                    sellx.append(i)
+                    selly.append(targetPrice)
+                    pnlValue = pnl(lastBuyPrice, targetPrice)
+                    if(pnlValue > 0 ):
+                        win += 1
+
         
     
     def isPriceSameAsPrev(self, openPrice, highPrice, lowPrice, closePrice):
